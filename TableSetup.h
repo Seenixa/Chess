@@ -35,6 +35,6 @@ void startingSetup(string table[8][8]) {
     table[0][7] = table[7][7] = "bR";       //Fekete Bástyák
     table[1][7] = table[6][7] = "bN";       //Fekete Lovak
     table[2][7] = table[5][7] = "bB";       //Fekete Futók
-    table[3][7] = "bK";                     //Fekete Király
-    table[4][7] = "bQ";                     //Fekete Királynő
+    table[3][7] = "bQ";                     //Fekete Királynő
+    table[4][7] = "bK";                     //Fekete Király
 }
