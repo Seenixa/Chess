@@ -1,8 +1,9 @@
 #include <iostream>
 using namespace std;
 
+#include "Game.h"
+
 int main() {
-  std::cout<<"Hello world!";
-  
+  playTheGame();
   return 0;
 }
