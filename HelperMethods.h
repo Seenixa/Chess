@@ -2,8 +2,8 @@
 using namespace std;
 #pragma once
 
-bool checkOutOfBounds(int position) {
-    return 0 < position && position < 8;
+bool checkOutOfBounds(int xPosition, int yPosition) {
+    return 0 <= xPosition && xPosition < 8 && 0 <= yPosition && yPosition < 8;
 }
 
 string convertNumberToPosition(int number, bool isRow){

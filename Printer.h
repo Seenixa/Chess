@@ -2,13 +2,17 @@
 using namespace std;
 
 void printTable(string table[8][8]) {
-    for(int i=0; i < 8; i++){
-
-        for(int j=0; j < 8; j++){
+    for(int i=7; i >= 0; i--){
+        cout << i + 1 << " ";
+        for(int j=0; j < 8; j++ ){
             cout << "|" << table[j][i];
         }
 
-        cout << "|" << endl;
+        cout << "|  " << endl;
+
+    if (i == 0){
+        cout << "   A  B  C  D  E  F  G  H" << endl;
+    }
     }
 }
 
