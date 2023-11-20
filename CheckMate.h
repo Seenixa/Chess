@@ -1,5 +1,9 @@
 #include <iostream>
+
+#pragma once
 using namespace std;
+
+#include "Piece.h"
 
 
 bool checkCheck(const string table[8][8], char color) {
@@ -11,13 +15,18 @@ bool checkCheck(const string table[8][8], char color) {
             if (table[i][j] == "wK" && color == 'w'){
                 kingXPosition = i;
                 kingYPosition = j;
+                break;
             }
             if (table[i][j] == "bK" && color == 'b'){
                 kingXPosition = i;
                 kingYPosition = j;
+                break;
             }           
         }
-    }    
+    }
+
+    
+        
     return false;
 }
 

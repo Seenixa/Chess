@@ -6,7 +6,6 @@ using namespace std;
 #include "Rook.h"
 #include "Knight.h"
 #include "Bishop.h"
-#include "Queen.h"
 #include "King.h"
 
 
@@ -14,7 +13,7 @@ using namespace std;
 
 string getPossibleMoves(int xPosition, int yPosition, string table[8][8]){
     if (table[xPosition][yPosition].size() != 2){
-        return "Nem letezo babu.";
+        return "Hibas fuggvenyhibas!";
     }
     char piece = table[xPosition][yPosition][1];
 
@@ -26,19 +25,19 @@ string getPossibleMoves(int xPosition, int yPosition, string table[8][8]){
             return checkPossibleRookMoves(table, xPosition, yPosition);
             break;
         case 'N':
-            return "Lovag lesz majd.";
+            return checkPossibleKnightMoves(table, xPosition, yPosition);
             break;
         case 'B':
-            return "Futó lesz majd.";
+            return checkPossibleBishopMoves(table, xPosition, yPosition);
             break;
         case 'Q':
-            return "Királynő lesz majd.";
+            return checkPossibleRookMoves(table, xPosition, yPosition) + checkPossibleBishopMoves(table, xPosition, yPosition);
             break;
         case 'K':
-            return "Király lesz majd.";
+            return checkPossibleKingMoves(table, xPosition, yPosition);
             break;
         default:
-            return "Nem letezo babu.";
+            return "Hibas fuggvenyhibas!";
             break;
     }
 }
