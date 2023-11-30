@@ -24,9 +24,6 @@ bool checkCheck(const string table[8][8], char color) {
             }           
         }
     }
-
-    
-        
     return false;
 }
 

@@ -4,6 +4,7 @@ using namespace std;
 #include "TableSetup.h"
 #include "Printer.h"
 #include "Piece.h"
+#include "move.h"
 
 
 void playTheGame(int mode) {
@@ -13,8 +14,9 @@ void playTheGame(int mode) {
     startingSetup(table);
     while (!mate && mode > 0 && mode <= 2){
         printTable(table);
-        table[1][0] = "--";
-        table[6][3] = "wK";
+        movePiece(table, 1, 0, 6, 4);
+        movePiece(table, 2, 0, 6, 4);
+        movePiece(table, 3, 0, 6, 3);
         printTable(table);
 
         printPossibleMoves(getPossibleMoves(6,3,table));

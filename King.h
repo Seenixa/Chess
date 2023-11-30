@@ -43,10 +43,6 @@ string checkPossibleKingMoves(string table[8][8], int xPosition, int yPosition){
     possibleMoves += getaKingMove(1, 0, xPosition, yPosition, table);   //jobbra
     possibleMoves += getaKingMove(1, -1, xPosition, yPosition, table);  //jobbra-le
     
-    
-    
-    
-
     return possibleMoves;
 }
 

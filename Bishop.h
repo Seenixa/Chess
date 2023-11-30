@@ -40,7 +40,5 @@ string checkPossibleBishopMoves(string table[8][8], int xPosition, int yPosition
     possibleMoves += getaLineOfMoves(-1, 1, xPosition, yPosition, table);
     possibleMoves += getaLineOfMoves(-1, -1, xPosition, yPosition, table);
 
-
-
     return possibleMoves;
 }

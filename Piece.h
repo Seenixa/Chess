@@ -8,9 +8,6 @@ using namespace std;
 #include "Bishop.h"
 #include "King.h"
 
-
-
-
 string getPossibleMoves(int xPosition, int yPosition, string table[8][8]){
     if (table[xPosition][yPosition].size() != 2){
         return "Hibas fuggvenyhibas!";
