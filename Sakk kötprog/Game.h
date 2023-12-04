@@ -37,7 +37,7 @@ void playTheGame(int mode) {
             cout << "Black's turn. Pick up a piece!" << endl;
         }
         if (checkCheck(table, colorTurn)){
-            cout << "Check!";
+            cout << "Check!" << endl;
         }
         
         cin >> pickedUpPiecePosition;
@@ -110,7 +110,7 @@ void playTheGame(int mode) {
             moveToY = convertRankToNumber(spotToMoveTo[1]);
 
             while(!tryMove(table, moveFromX, moveFromY, moveToX, moveToY) && !repick){
-                cout << "Check!";
+                cout << "Check!" << endl;
                 printTable(table);
                 cin >> spotToMoveTo;
                 moveToX = convertFileToNumber(spotToMoveTo[0]);

@@ -1,0 +1,1 @@
+g++ -Wall -o chess.exe chess.cpp
