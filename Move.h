@@ -14,9 +14,10 @@ void movePiece (string table[8][8], int originalXposition, int originalYposition
 bool tryMove (string table[8][8], int originalXposition, int originalYposition, int newXposition, int newYposition){
     string tempOriginalSpace = table[originalXposition][originalYposition];
     string tempNewSpace = table[newXposition][newYposition];
-    bool isValidMove;
-
+    bool isValidMove = true;
+    
     movePiece(table, originalXposition, originalYposition, newXposition, newYposition);
+    
     isValidMove = !(checkCheck(table, tempOriginalSpace[0]));
     table[originalXposition][originalYposition] = tempOriginalSpace;
     table[newXposition][newYposition] = tempNewSpace;

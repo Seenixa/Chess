@@ -29,7 +29,7 @@ bool isAttackedByRookOrQueen(const string table[8][8], int xPosition, int yPosit
             }    
         }
 
-        if (table[i][yPosition] == opposingRook || table[xPosition][i] == opposingRook){
+        if (table[i][yPosition] == opposingRook || table[i][yPosition] == opposingQueen){
             for (int j = min(i, xPosition); j <= max(i, xPosition); j++){
                 if (j == max(i, xPosition)){
                     return true;
@@ -53,13 +53,14 @@ bool isAttackedByBishopOrQueen(const string table[8][8], int xPosition, int yPos
 
     if (color == 'b'){
         opposingBishop = "wB";
-        opposingQueen = "bQ";
+        opposingQueen = "wQ";
     }
 
-    while(xPosition < 8 && yPosition < 8 && xPosition){
+    while(xPosition < 7 && yPosition < 7){
         checkingXPosition++;
         checkingYPosition++;
         if (table[checkingXPosition][checkingYPosition] == opposingBishop || table[checkingXPosition][checkingYPosition] == opposingQueen){
+            
             return true;
         }
         if (table[checkingXPosition][checkingYPosition] != "--"){
@@ -69,7 +70,7 @@ bool isAttackedByBishopOrQueen(const string table[8][8], int xPosition, int yPos
     checkingXPosition = xPosition;
     checkingYPosition = yPosition;
 
-    while(xPosition >= 0 && yPosition < 8){
+    while(xPosition > 0 && yPosition < 7){
         checkingXPosition--;
         checkingYPosition++;
         if (table[checkingXPosition][checkingYPosition] == opposingBishop || table[checkingXPosition][checkingYPosition] == opposingQueen){
@@ -83,7 +84,7 @@ bool isAttackedByBishopOrQueen(const string table[8][8], int xPosition, int yPos
     checkingXPosition = xPosition;
     checkingYPosition = yPosition;
 
-    while(xPosition < 8 && yPosition >= 0){
+    while(xPosition < 7 && yPosition > 0){
         checkingXPosition++;
         checkingYPosition--;
         if (table[checkingXPosition][checkingYPosition] == opposingBishop || table[checkingXPosition][checkingYPosition] == opposingQueen){
@@ -97,7 +98,7 @@ bool isAttackedByBishopOrQueen(const string table[8][8], int xPosition, int yPos
     checkingXPosition = xPosition;
     checkingYPosition = yPosition;
 
-    while(xPosition >= 0 && yPosition >= 0){
+    while(xPosition > 0 && yPosition > 0){
         checkingXPosition--;
         checkingYPosition--;
         if (table[checkingXPosition][checkingYPosition] == opposingBishop || table[checkingXPosition][checkingYPosition] == opposingQueen){
@@ -116,18 +117,20 @@ bool isAttackedByBishopOrQueen(const string table[8][8], int xPosition, int yPos
 
 bool isAttackedByPawn(const string table[8][8], int xPosition, int yPosition, char color){
     string opposingPawn = "bP";
-    if (color = 'b'){
+    if (color == 'b'){
         opposingPawn = "wP";
     }
 
-    if (color = 'w'){
-        if ( (table[xPosition + 1][yPosition + 1] == "bP") && (table[xPosition - 1][yPosition + 1] == "bP")){
+    if (color == 'w'){
+        if ( (table[xPosition + 1][yPosition + 1] == "bP" || table[xPosition - 1][yPosition + 1] == "bP") && 
+                (xPosition + 1 < 8) && (yPosition + 1 < 8) && (xPosition - 1 >= 0)){
             return true;
         }
     }
 
-    if (color = 'b'){
-        if ( (table[xPosition - 1][yPosition - 1] == "bP") && (table[xPosition + 1][yPosition - 1] == "bP")){
+    if (color == 'b'){
+        if ( (table[xPosition - 1][yPosition - 1] == "wP" || table[xPosition + 1][yPosition - 1] == "wP") &&
+                 xPosition + 1 < 8 && yPosition - 1 >= 0 && xPosition - 1 >= 0){
             return true;
         }
     }
@@ -137,32 +140,32 @@ bool isAttackedByPawn(const string table[8][8], int xPosition, int yPosition, ch
 
 bool isAttackedByKing(const string table[8][8], int xPosition, int yPosition, char color){
     string opposingKing = "bK";
-    if (color = 'b'){
+    if (color == 'b'){
         opposingKing = "wK";
     }
 
-    if (table[xPosition + 1][yPosition + 1] == opposingKing){
+    if (table[xPosition + 1][yPosition + 1] == opposingKing && xPosition + 1 < 8 && yPosition + 1 < 8){
         return true;
     }
-    if (table[xPosition + 1][yPosition] == opposingKing){
+    if (table[xPosition + 1][yPosition] == opposingKing && xPosition + 1 < 8){
         return true;
     }
-    if (table[xPosition + 1][yPosition - 1] == opposingKing){
+    if (table[xPosition + 1][yPosition - 1] == opposingKing && xPosition + 1 < 8 && yPosition - 1 >= 0){
         return true;
     }
-    if (table[xPosition][yPosition + 1] == opposingKing){
+    if (table[xPosition][yPosition + 1] == opposingKing && yPosition + 1 < 8){
         return true;
     }
-    if (table[xPosition][yPosition - 1] == opposingKing){
+    if (table[xPosition][yPosition - 1] == opposingKing && yPosition - 1 >= 0){
         return true;
     }
-    if (table[xPosition - 1][yPosition + 1] == opposingKing){
+    if (table[xPosition - 1][yPosition + 1] == opposingKing && xPosition - 1 >= 0 && yPosition + 1 < 8){
         return true;
     }
-    if (table[xPosition - 1][yPosition] == opposingKing){
+    if (table[xPosition - 1][yPosition] == opposingKing && xPosition - 1 >= 0){
         return true;
     }
-    if (table[xPosition - 1][yPosition - 1] == opposingKing){
+    if (table[xPosition - 1][yPosition - 1] == opposingKing && xPosition - 1 >= 0 && yPosition - 1 >= 0){
         return true;
     } 
 
@@ -171,32 +174,32 @@ bool isAttackedByKing(const string table[8][8], int xPosition, int yPosition, ch
 
 bool isAttackedByKnight(const string table[8][8], int xPosition, int yPosition, char color){
     string opposingKnight = "bN";
-    if (color = 'b'){
+    if (color == 'b'){
         opposingKnight = "wN";
     }
 
-    if (table[xPosition + 2][yPosition + 1] == opposingKnight){
+    if (table[xPosition + 2][yPosition + 1] == opposingKnight && xPosition + 2 < 8 && yPosition + 1 < 8){
         return true;
     }
-    if (table[xPosition + 2][yPosition - 1] == opposingKnight){
+    if (table[xPosition + 2][yPosition - 1] == opposingKnight && xPosition + 2 < 8 && yPosition - 1 >= 0){
         return true;
     }
-    if (table[xPosition - 2][yPosition + 1] == opposingKnight){
+    if (table[xPosition - 2][yPosition + 1] == opposingKnight && xPosition - 2 >= 0 && yPosition + 1 < 8){
         return true;
     }
-    if (table[xPosition - 2][yPosition - 1] == opposingKnight){
+    if (table[xPosition - 2][yPosition - 1] == opposingKnight && xPosition - 2 >= 0 && yPosition - 1 >= 0){
         return true;
     }
-    if (table[xPosition + 1][yPosition + 2] == opposingKnight){
+    if (table[xPosition + 1][yPosition + 2] == opposingKnight && xPosition + 1 < 8 && yPosition + 2 < 8){
         return true;
     }
-    if (table[xPosition + 1][yPosition - 2] == opposingKnight){
+    if (table[xPosition + 1][yPosition - 2] == opposingKnight && xPosition + 1 < 8 && yPosition - 2 >= 0){
         return true;
     }
-    if (table[xPosition - 1][yPosition + 2] == opposingKnight){
+    if (table[xPosition - 1][yPosition + 2] == opposingKnight && xPosition - 1 >= 0 && yPosition + 2 < 8){
         return true;
     }
-    if (table[xPosition - 1][yPosition - 2] == opposingKnight){
+    if (table[xPosition - 1][yPosition - 2] == opposingKnight && xPosition - 1 >= 0 && yPosition - 2 >= 0){
         return true;
     }
 
@@ -221,26 +224,32 @@ bool checkCheck(const string table[8][8], char color) {
             }           
         }
     }
+
     if(isAttackedByBishopOrQueen(table, kingXPosition, kingYPosition, color)){
+        cout << " Checked by a Bishop/Queen!" << endl;
         return true;   
     }
     if(isAttackedByRookOrQueen(table, kingXPosition, kingYPosition, color)){
+        cout << " Checked by a Rook/Queen!" << endl;
         return true;   
     }
     if(isAttackedByKnight(table, kingXPosition, kingYPosition, color)){
+        cout << " Checked by a Knight!" << endl;
         return true;   
     }
     if(isAttackedByPawn(table, kingXPosition, kingYPosition, color)){
+        cout << " Checked by a Pawn!" << endl;
         return true;   
     }
     if(isAttackedByKing(table, kingXPosition, kingYPosition, color)){
+        cout << " Checked by a King!" << endl;
         return true;   
     }
     return false;
 }
 
-bool checkMate(const string table[8][8], int numberOfTries) {
-    if (checkCheck && numberOfTries > 3) {
+bool checkMate(const string table[8][8], int numberOfTries, char color) {
+    if (checkCheck(table, color) && numberOfTries >= 3) {
         return true;
     }
     return false;

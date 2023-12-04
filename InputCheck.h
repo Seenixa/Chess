@@ -3,6 +3,7 @@ using namespace std;
 #pragma once
 
 #include "ValidMoveCheck.h"
+#include "HelperMethods.h"
 
 bool isValidPiece(char characterToCheck){
     return (characterToCheck == 'R' || characterToCheck == 'N' || characterToCheck == 'B' || characterToCheck == 'K' || characterToCheck == 'Q');
@@ -13,19 +14,13 @@ bool isValidFile(char characterToCheck){
 }
 
 bool isValidRank(char CharacterToCheck){
-    return (CharacterToCheck >= 1 && CharacterToCheck <= 8);
+    return (CharacterToCheck >= '1' && CharacterToCheck <= '8');
 }
 
 bool checkInput(string inputString) {
 
-    if (inputString.size() == 3) {
-        if (isValidPiece(inputString[0]) && isValidFile(inputString[1]) && isValidRank(inputString[2])) {
-            return true;
-        }
-    }
-
     if (inputString.size() == 2){
-        if (isValidFile(inputString[0] && isValidRank(inputString[1]))){
+        if (isValidFile(inputString[0]) && isValidRank(inputString[1])){
             return true;
         }
     }
@@ -34,30 +29,16 @@ bool checkInput(string inputString) {
 }
 
 bool isValidMove(string moveToCheck, string table[8][8], int startingXPosition, int startingYPosition, char color){
-    char piece, newRank;
-    int newFile;
+    char piece;
+    int newFile, newRank;
 
     if ( !(checkInput(moveToCheck)) ){
         return false;
     }
 
-    if (isValidPiece(moveToCheck[0])){
-        piece = moveToCheck[0];
-    } else {
-        piece = 'P';
-    }
-
-    if (piece != 'P' && isValidFile(moveToCheck[1])){
-        newFile = moveToCheck[1];
-    } else if (piece == 'P' && isValidFile(moveToCheck[0])){
-        newFile = moveToCheck[0];
-    }
-
-    if (piece != 'P' && isValidRank(moveToCheck[2])){
-        newRank = moveToCheck[2];
-    } else if (piece == 'P' && isValidRank(moveToCheck[1])){
-        newRank = moveToCheck[1];
-    }
+    piece = table[startingXPosition][startingYPosition][1];
+    newRank = convertRankToNumber(moveToCheck[1]);
+    newFile = convertFileToNumber(moveToCheck[0]);
     
     switch (piece){
         case 'P':

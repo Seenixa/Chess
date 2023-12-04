@@ -28,7 +28,6 @@ string getaLineOfMoves(int rowMovement, int columnMovement, int xPosition, int y
 
 string checkPossibleBishopMoves(string table[8][8], int xPosition, int yPosition){
     string possibleMoves = "";
-    char color = table[xPosition][yPosition][0];
     char piece = table[xPosition][yPosition][1];
 
     if (piece != 'B' && piece != 'Q'){

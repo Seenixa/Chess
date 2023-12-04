@@ -11,8 +11,11 @@ using namespace std;
 
 void playTheGame(int mode) {
     bool mate = false;
+    bool repick = false;
+    bool pieceMoved;
+    int logId = 1;
+    string log = "";
     string table[8][8];
-    string possibleMoves[128];
     string pickedUpPiecePosition;
     string spotToMoveTo;
     int moveFromX;
@@ -25,46 +28,121 @@ void playTheGame(int mode) {
     startingSetup(table);
 
     while (!mate && mode > 0 && mode <= 2){
+        pieceMoved = false;
         printTable(table);
-        cout << "White's turn. Pick up a piece" << endl;
+        if (colorTurn == 'w'){
+            cout << "White's turn. Pick up a piece!" << endl;
+        }
+        if (colorTurn == 'b'){
+            cout << "Black's turn. Pick up a piece!" << endl;
+        }
+        
         cin >> pickedUpPiecePosition;
         moveFromX = convertFileToNumber(pickedUpPiecePosition[0]);
         moveFromY = convertRankToNumber(pickedUpPiecePosition[1]);
 
-        while (!checkInput(spotToMoveTo) || table[moveFromX][moveFromY][0] != colorTurn){
-            cout << "Wrong input. Try again" << endl;
-            printTable(table);
-            cin >> pickedUpPiecePosition;
-        }
+        while(!checkInput(spotToMoveTo) || !pieceMoved){
+            
+            while (!checkInput(pickedUpPiecePosition) || table[moveFromX][moveFromY][0] != colorTurn || repick){
+                repick = false;
+                cout << "Pick up a piece!" << endl;
+                printTable(table);
+                cin >> pickedUpPiecePosition;
+                moveFromX = convertFileToNumber(pickedUpPiecePosition[0]);
+                moveFromY = convertRankToNumber(pickedUpPiecePosition[1]);
+            }
 
-        moveFromX = convertFileToNumber(pickedUpPiecePosition[0]);
-        moveFromY = convertRankToNumber(pickedUpPiecePosition[1]);
 
-        cout << "Where do you want to move?";
-        cin >> spotToMoveTo;
-
-        while (!checkInput(spotToMoveTo)){
-            cout << "Wrong input. Try again" << endl;
-            printTable(table);
+            cout << "Where do you want to move?" << endl;
             cin >> spotToMoveTo;
-        }
+            if (spotToMoveTo == "repick"){
+                    repick = true;
+                    continue;;
+            }
 
-        moveToX = convertFileToNumber(spotToMoveTo[0]);
-        moveToY = convertRankToNumber(spotToMoveTo[1]);
 
-        while (!isValidMove(spotToMoveTo, table, moveToX, moveToY, colorTurn)){
-            cout << "The move you entered is invalid. Try again." << endl;
-            printTable(table);
-            cin >> spotToMoveTo;
-            while (!checkInput(spotToMoveTo) || !tryMove(table, moveFromX, moveFromY, moveToX, moveToY)){
-                cout << "Wrong input. Try again" << endl;
+            while (!checkInput(spotToMoveTo) && !repick){
+                cout << "Wrong input. Where do you want to move?" << endl;
                 printTable(table);
                 cin >> spotToMoveTo;
-                numberOfTries++;
+                moveToX = convertFileToNumber(spotToMoveTo[0]);
+                moveToY = convertRankToNumber(spotToMoveTo[1]);
+                if (spotToMoveTo == "repick"){
+                    repick = true;
+                    break;
+                }
             }
+
+            if (repick){
+                continue;
+            }
+
+            moveToX = convertFileToNumber(spotToMoveTo[0]);
+            moveToY = convertRankToNumber(spotToMoveTo[1]);
+            
+            while (!isValidMove(spotToMoveTo, table, moveFromX, moveFromY, colorTurn) && !repick) {
+                cout << "Invalid move. Where do you want to move?" << endl;
+                printTable(table);
+                cin >> spotToMoveTo;
+                moveToX = convertFileToNumber(spotToMoveTo[0]);
+                moveToY = convertRankToNumber(spotToMoveTo[1]);
+                if (spotToMoveTo == "repick"){
+                    repick = true;
+                    break;;
+                }
+            }
+
+            if (repick){
+                continue;
+            }
+
+            moveToX = convertFileToNumber(spotToMoveTo[0]);
+            moveToY = convertRankToNumber(spotToMoveTo[1]);
+
+            while(!tryMove(table, moveFromX, moveFromY, moveToX, moveToY) && !repick){
+                cout << "Check!";
+                cin >> spotToMoveTo;
+                moveToX = convertFileToNumber(spotToMoveTo[0]);
+                moveToY = convertRankToNumber(spotToMoveTo[1]);
+                numberOfTries++;
+                if(checkMate(table, numberOfTries, colorTurn)){
+                    mate = true;
+                    break;
+                }
+                if (spotToMoveTo == "repick"){
+                    repick = true;
+                    break;
+                }
+            }
+            
+            if (repick){
+                continue;
+            }
+            
+            pieceMoved = true;
+            movePiece(table, moveFromX, moveFromY, moveToX, moveToY);
+            if (colorTurn == 'w'){
+                log += logId;
+                log += table[moveToX][moveToY][1];
+                log += spotToMoveTo + "   ";
+            }
+            if (colorTurn == 'b'){
+                log += table[moveToX][moveToY][1];
+                log += spotToMoveTo + "\n";
+                logId++;
+            }
+            
         }
-        mate = checkMate(table, numberOfTries);
+
         numberOfTries = 0;
-        colorTurn = 'b';
-    }
+        if (colorTurn == 'w'){
+            colorTurn = 'b';
+        } else if (colorTurn == 'b'){
+            colorTurn = 'w';
+        }
+        pickedUpPiecePosition = "";
+        spotToMoveTo = "";
+   }
+   cout << endl << endl <<log;
+   return;
 }
