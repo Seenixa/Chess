@@ -54,22 +54,27 @@ bool isValidPawnMove(string table[8][8], int originalXposition, int originalYpos
 
 bool isValidRookMove(string table[8][8], int originalXposition, int originalYposition, int newXposition, int newYposition, char color){
     if (originalXposition == newXposition || originalYposition == newYposition){
+        
         if (table[newXposition][newYposition][0] == color){
+            cout << "itt!";
             return false;
         }
         for (int i = min(originalXposition, newXposition); i < max(originalXposition, newXposition); i++){
-            if (table[i][originalYposition] != "--" && table[i][originalYposition] != table[newXposition][newYposition] ){
+            if (table[i][originalYposition] != "--" && table[i][originalYposition] != table[newXposition][newYposition] && table[i][originalYposition] != table[originalXposition][originalYposition] ){
+                cout << "itt!0";
                 return false;
             }
         }
 
         for (int j = min(originalYposition, newYposition); j < max(originalYposition, newYposition); j++){
-            if (table[originalXposition][j] != "--" && table[originalXposition][j] != table[newXposition][newYposition]){
+            if (table[originalXposition][j] != "--" && table[originalXposition][j] != table[newXposition][newYposition] && table[originalXposition][j] != table[originalXposition][originalYposition]){
+                cout << "itt!1";
                 return false;
             }
         }
         
         if (color == table[newXposition][newYposition][0]){
+            cout << "itt!3";
             return false;
         }
 
